@@ -1,0 +1,33 @@
+name: Acknowledge public sponsorship inquiries
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  acknowledge:
+    if: startsWith(github.event.issue.title, '[提携相談]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Acknowledge without making a contract or collecting secrets
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const message = [
+              'お問い合わせありがとうございます。こちらは「はこ便ものさし」の広告・業務提携の相談受付です。',
+              '',
+              '公開されている事業者情報・商品URL・掲載内容・予算帯・希望期間を確認し、提携可能性を検討します。公開Issueへの投稿だけでは、契約・料金・掲載義務は発生しません。',
+              '',
+              '【お支払いについて】契約条件と安全な非公開連絡方法を合意するまで送金しないでください。現在、公開の決済リンクや受取先住所は設定していません。',
+              '',
+              '【個人情報】このIssueに氏名・住所・メールアドレス・電話番号・銀行口座・決済情報・機密情報を投稿しないでください。',
+              '',
+              '※ この返信は受付の自動確認であり、掲載承認・見積確定・入金確認ではありません。'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: message
+            });
