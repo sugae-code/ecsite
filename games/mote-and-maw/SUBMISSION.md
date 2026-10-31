@@ -22,7 +22,10 @@ Repository: https://github.com/sugae-code/ecsite/tree/main/games/mote-and-maw
 - `CRAZYGAMES_FULL_LAUNCH_APPROVED` remains `false`. The SDK ad hook is deliberately not enabled before actual Full Launch acceptance.
 - Basic Launch = evaluation only, **no ad revenue**. Full Launch = review/SDK integration required before revshare.
 - Developer portal submission and ownership/payout authentication have not been performed by the assistant. Do not claim accepted, contracted, earning or paid.
-- The current publisher terms specify a €100 minimum balance before CrazyGames payments.
+- CrazyGames payout minimum is **€100** (official Payouts page, checked 2026-10-31); payouts use Tipalti. Before even submitting a game, the Developer Portal requires personal/company identity and address details for self-billing. Payment details may be deferred using **Hold Payments**, but the required identity/address onboarding cannot be skipped. No developer portal session or payout profile is available through the connected tools; submission has **not** happened.
+- CrazyGames Basic Launch lasts 7–21 days, with no ad revenue. Full Launch eligibility is based on playtime, gameplay conversion and retention; the official Basic Launch Guide cites 10+ minutes average playtime, 80%+ one-minute conversion and 10–15% D1 retention as examples of strong performance, **not guarantees or mandatory universal thresholds**.
+- GameDistribution's published developer license (2025-06-19) grants developers **33% of net revenue**, requires account registration, and sets a **€100** payout threshold with required billing details. Its FAQ separately says €50 PayPal / €100 bank transfer; until a signed contract clarifies the discrepancy, treat €100 as the conservative threshold. This build has **no GameDistribution SDK integration** and must not be represented as ready for that platform.
+- As of 2026-10-31, neither platform has accepted this game; there is no verified publisher balance, payout or withdrawal.
 
 Official documentation:
 - https://docs.crazygames.com/requirements/intro/
@@ -32,4 +35,9 @@ Official documentation:
 - https://docs.crazygames.com/sdk/game/
 - https://docs.crazygames.com/requirements/ads/
 - https://docs.crazygames.com/faq/
+- https://docs.crazygames.com/payouts/
+- https://docs.crazygames.com/resources/basic-launch-metrics/
+- https://gamedistribution.com/developers/partnership/
+- https://static.gamedistribution.com/terms/developer.html
+- https://gamedistribution.com/developers/faq/general-questions/when-will-i-get-paid/
 - https://developer.crazygames.com/
