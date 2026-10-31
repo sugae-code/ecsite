@@ -26,6 +26,17 @@ body:
         - "その他"
     validations:
       required: true
+  - type: dropdown
+    id: payment
+    attributes:
+      label: お支払いに関する希望（任意）
+      description: "契約前の相談です。公開フォームに住所・個人情報を書かないでください"
+      options:
+        - "まず掲載条件だけを相談したい"
+        - "国内で現金書留による支払方法を検討できる"
+        - "その他の支払方法を相談したい"
+    validations:
+      required: false
   - type: textarea
     id: proposal
     attributes:
