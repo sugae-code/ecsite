@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>箱ぴた｜宅急便・ゆうパックの梱包サイズ計算</title>
+<meta name="description" content="縦・横・高さと重さを入れるだけ。ヤマト宅急便・ゆうパックの発送サイズの目安を無料で計算。緩衝材の厚みも考慮。スマホ対応・登録不要。">
+<meta name="theme-color" content="#10233e"><meta property="og:title" content="箱ぴた｜梱包サイズの無料計算">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f1f6f9;color:#10233e;font:16px system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif}
+header{background:#10233e;color:white;padding:20px 24px;font-size:23px;font-weight:800}main{max-width:900px;margin:0 auto;padding:24px 18px 70px}
+h1{font-size:clamp(27px,5vw,42px);letter-spacing:-.03em;margin-bottom:10px}h2{font-size:21px}p{line-height:1.85}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:#fff;border:1px solid #deebf0;border-radius:18px;padding:24px;box-shadow:0 8px 32px #12324a09}
+.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.fields.two{grid-template-columns:1fr 1fr;margin-top:15px}
+label{font-weight:700;font-size:13px;display:block;line-height:1.5;margin-bottom:7px}
+input{width:100%;font-size:17px;padding:12px 6px;border:1px solid #b9cbd5;border-radius:9px}
+button{padding:14px;border:0;border-radius:10px;background:#087d88;color:white;font-weight:800;cursor:pointer;margin:18px 6px 0 0;min-height:45px}
+button.secondary{color:#155765;background:#e2f1f3}
+.result{padding:20px;border-radius:14px;background:linear-gradient(135deg,#122c46,#185774);color:white}
+.result small{color:#afdbdf}.big{font-size:44px;font-weight:900;margin:10px 0}
+.sizes{display:grid;grid-template-columns:1fr 1fr;gap:12px}.size{background:#ffffff1a;border-radius:9px;padding:12px}
+.size span{display:block;font-size:12px;color:#c3e6ea}.size strong{font-size:21px}
+.note{font-size:14px;background:#eff7f8;padding:13px;border-radius:9px;line-height:1.8}
+a{color:#087d88}li{margin:10px 0}footer{max-width:900px;margin:auto;padding:25px;border-top:1px solid #cfe0e8;color:#567080;font-size:13px;line-height:1.8}
+#error{color:#bc3547;min-height:20px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.card{padding:18px}input{font-size:16px}}
+</style></head><body>
+<header>📦 箱ぴた</header>
+<main><p style="color:#087d88;font-weight:800">無料・登録不要・ブラウザだけで計算</p>
+<h1>荷物の発送サイズ、<br>数字を入れるだけ。</h1>
+<p>梱包前の縦・横・高さと、緩衝材の余裕、梱包後の重さから<strong>3辺合計とサイズ区分</strong>を計算します。運賃は発送地・宛先で変わるため表示しません。</p>
+<div class="grid">
+<section class="card"><h2>① 大きさを入力</h2><form id="form">
+<div class="fields">
+<div><label for="length">縦（cm）</label><input id="length" type="number" step="0.1" value="30" min="0.1" required></div>
+<div><label for="width">横（cm）</label><input id="width" type="number" step="0.1" value="20" min="0.1" required></div>
+<div><label for="height">高さ（cm）</label><input id="height" type="number" step="0.1" value="10" min="0.1" required></div>
+</div><div class="fields two">
+<div><label for="pad">緩衝材の余裕（片側cm）</label><input id="pad" type="number" step="0.1" min="0" value="1" required></div>
+<div><label for="weight">梱包後の重量（kg）</label><input id="weight" type="number" step="0.1" min="0.01" value="1" required></div>
+</div><button type="submit">計算する</button><button type="button" class="secondary" id="reset">リセット</button>
+<p id="error" role="alert"></p></form></section>
+<section class="card"><h2>② 発送サイズの目安</h2><div class="result">
+<small>緩衝材を含む3辺合計</small><div id="sum" class="big">— cm</div><small id="dim">外寸の目安：—</small>
+<div class="sizes" style="margin-top:18px">
+<div class="size"><span>ヤマト宅急便</span><strong id="yamato">—</strong></div>
+<div class="size"><span>ゆうパック</span><strong id="japanpost">—</strong></div>
+</div></div><p class="note">箱の厚みなどを含めた<strong>実際の外寸</strong>で確認してください。宅急便は重さでもサイズが上がります。</p>
+<button type="button" id="copy" class="secondary">結果をコピー</button></section></div>
+<section class="card" style="margin-top:22px"><h2>どこまで信用できる計算？</h2>
+<p>緩衝材の余裕を品物の各辺の両側に加えています。実際の箱の外寸、品物の形、1辺の上限、梱包方法、荷物の種類、重さ、発送場所によってはこの結果で配送できないことがあります。最終的には配送事業者の案内を優先してください。</p>
+<p><strong>公式情報</strong></p><ul>
+<li><a href="https://www.kuronekoyamato.co.jp/ytc/customer/send/search/payment/size/">ヤマト運輸：宅急便のサイズと重量</a></li>
+<li><a href="https://www.post.japanpost.jp/service/send/domestic/delivery/yu-pack/">日本郵便：ゆうパックのサイズと料金</a></li>
+</ul><p style="color:#647582;font-size:13px">2026年10月31日時点の公式規格を参照。価格の表示なし。入力データはサーバーに送信しません。</p></section>
+<section class="card" style="margin-top:22px"><h2>よくある質問</h2>
+<h3>60cm以下でも100サイズになる？</h3><p>ヤマト宅急便では重さに応じて大きい区分が適用されます。たとえば3辺60cm、重さ8kgなら100サイズです。</p>
+<h3>ゆうパックは重さでサイズが変わる？</h3><p>通常ゆうパックは3辺合計で区分が決まり、重さ25kgが上限です。上限を超えた場合は重量ゆうパック等を確認してください。</p>
+<h3>広告や費用は？</h3><p>無料です。現在、広告・購入リンクはありません。将来掲載する広告は区別して表示します。</p>
+</section>
+</main><footer>箱ぴたは宅配事業者とは無関係の独立した無料ツールです。料金の最終確認は公式サイトでお願いします。</footer>
+<script type="module">
+import {classify} from './calc.mjs';
+const $=id=>document.getElementById(id);let copyText='';
+function update(){
+ try{
+ const keys=['length','width','height','pad','weight'];const vals=Object.fromEntries(keys.map(k=>[k,Number($(k).value)]));
+ const r=classify(vals), format=n=>Number(n.toFixed(1)).toLocaleString('ja-JP');
+ $('sum').textContent=format(r.sum)+' cm';$('dim').textContent='必要寸法の目安：'+r.dimensions.map(format).join(' × ')+'cm';
+ $('yamato').textContent=r.yamato?r.yamato+'サイズ':'規格外の可能性';
+ $('japanpost').textContent=r.japanpost?r.japanpost+'サイズ':'通常規格外';
+ $('error').textContent='';
+ copyText='箱ぴた：3辺'+format(r.sum)+'cm、宅急便'+(r.yamato??'対象外')+'、ゆうパック'+(r.japanpost??'対象外');
+ }catch(e){$('error').textContent=e.message;$('sum').textContent='— cm';copyText=''}
+}
+$('form').addEventListener('input',update);
+$('form').addEventListener('submit',e=>{e.preventDefault();update()});
+$('reset').addEventListener('click',()=>{$('form').reset();update()});
+$('copy').addEventListener('click',async()=>{if(!copyText)return;try{await navigator.clipboard.writeText(copyText);$('copy').textContent='コピーしました'}catch{$('copy').textContent='コピーに失敗しました'}setTimeout(()=>$('copy').textContent='結果をコピー',1800)});
+update();
+</script></body></html>
