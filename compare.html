@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>メルカリ便の送料比較・梱包箱サイズ計算｜箱ぴた</title>
+<meta name="description" content="らくらくメルカリ便とゆうゆうメルカリ便の宅急便・ゆうパック送料をサイズ・重量から自動比較。品物寸法から必要な箱の内寸、発送サイズ、購入する梱包用品を探せます。無料・登録不要。">
+<meta name="theme-color" content="#10263b">
+<link rel="canonical" href="https://hakopita-m84e27.deed.page/compare.html">
+<meta property="og:title" content="メルカリ便の送料・梱包サイズ比較｜箱ぴた">
+<meta property="og:description" content="重さと3辺合計からメルカリ便の送料を比較。梱包前のサイズも計算。">
+<style>
+:root{font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#132c41;background:#f1f7fa}
+*{box-sizing:border-box}body{margin:0}a{color:#127386}
+header{background:#10263b;color:#fff;padding:17px max(20px,calc((100vw - 960px)/2));display:flex;align-items:center;gap:17px}
+header a{color:#fff;text-decoration:none;font-weight:800;font-size:21px}header span{color:#b8cfd9;font-size:13px}
+main{max-width:960px;margin:auto;padding:28px 18px 60px}
+h1{font-size:clamp(27px,5vw,42px);line-height:1.35;letter-spacing:-.04em;margin:8px 0}
+h2{font-size:21px;margin:0 0 15px}h3{font-size:18px}
+.lead{line-height:1.8;color:#405b6b;max-width:690px}
+.card{background:white;border:1px solid #d9e7ed;border-radius:18px;padding:22px;margin-top:18px;box-shadow:0 6px 26px #143e5009}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 20px}
+.pills label{padding:9px 12px;border-radius:11px;background:#e8f4f7;color:#284d61;font-weight:750;cursor:pointer;font-size:14px;border:1px solid #bfdbe4}
+.pills label:has(input:checked){background:#0e7887;color:#fff;border-color:#0e7887}
+.pills input{accent-color:#fff}
+.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.fields.two{grid-template-columns:1fr 1fr;margin:13px 0 0}
+label.field{display:block;font-size:13px;font-weight:700}
+input[type=number]{display:block;width:100%;margin-top:7px;border:1px solid #bed0dc;border-radius:10px;padding:12px 8px;font-size:17px;background:#fff}
+select{font-size:16px;width:100%;padding:11px;border:1px solid #bdcfd9;border-radius:9px;background:white}
+.helper{font-size:12px;color:#577181;line-height:1.7;margin:8px 0}
+.summary{background:linear-gradient(135deg,#123048,#145e71);padding:22px;border-radius:15px;color:white}
+.summary small{font-size:13px;color:#c5e2e8}
+.big{font-size:40px;font-weight:900;letter-spacing:-.03em;margin:6px 0 8px}
+.smallboxes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.smallboxes div{background:#ffffff19;border-radius:10px;padding:12px}
+.smallboxes span{font-size:12px;color:#d1e6e8;display:block}
+.smallboxes strong{font-size:21px;display:block;margin-top:2px}
+.notice{padding:12px;background:#eaf6f8;border-radius:10px;color:#325567;font-size:13px;line-height:1.8;margin-top:12px}
+.option{border:1px solid #d7e5ec;padding:15px;margin:10px 0;border-radius:11px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.option strong{font-size:16px}.option small{color:#547183;display:block;line-height:1.6;margin:4px 0}
+.option em{font-style:normal;font-weight:900;font-size:24px;color:#105e75;white-space:nowrap}
+.option.best{border-color:#13a8ac;background:#e8fafa}
+.badge{display:inline-block;background:#daf5ef;color:#0b6258;border-radius:8px;font-size:11px;font-weight:800;padding:2px 6px;margin-bottom:5px}
+.buttons{display:flex;gap:9px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;background:#0d7889;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:800;min-height:45px}
+.btn.alt{background:#e5f2f6;color:#115c6c}
+#errors{min-height:20px;color:#ab2842;font-weight:750;font-size:13px}
+.gridlinks{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0}
+.gridlinks a{padding:13px;border:1px solid #cce0e7;border-radius:10px;text-decoration:none;font-weight:750}
+.bullet{line-height:1.9;color:#40596a;font-size:14px}
+footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#567080;border-top:1px solid #d3e0e7;line-height:1.8}
+[hidden]{display:none!important}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.card{padding:17px}.option{padding:12px}.big{font-size:36px}}
+</style></head>
+<body><header><a href="/">📦 箱ぴた</a><span>送料・発送方法 比較</span></header>
+<main>
+<p style="font-size:13px;color:#0c7888;font-weight:800">フリマ発送の送料をかんたん比較</p>
+<h1>送るなら、いくら？<br>何サイズの箱が必要？</h1>
+<p class="lead">品物の寸法・重さから、らくらくメルカリ便とゆうゆうメルカリ便の送料を比較します。普通の宅急便・ゆうパックも発送サイズの目安を判定。箱の内寸と外寸の違いも考慮します。</p>
+<div class="layout">
+<section class="card" aria-labelledby="sizeslabel">
+<h2 id="sizeslabel">① 発送する荷物</h2>
+<p class="helper">品物そのものを測っている場合は緩衝材と箱の厚みを加算します。梱包後なら外寸を直接入力してください。</p>
+<div class="pills" role="group" aria-label="入力する寸法の種類">
+<label><input type="radio" name="mode" value="item" checked> 品物の寸法</label>
+<label><input type="radio" name="mode" value="packed"> 梱包後の外寸</label>
+</div>
+<form id="shipment">
+<div class="fields">
+<label class="field" for="length">縦（cm）<input id="length" type="number" step="0.1" min="0.1" inputmode="decimal" value="30" required></label>
+<label class="field" for="width">横（cm）<input id="width" type="number" step="0.1" min="0.1" inputmode="decimal" value="20" required></label>
+<label class="field" for="height">高さ（cm）<input id="height" type="number" step="0.1" min="0.1" inputmode="decimal" value="10" required></label>
+</div>
+<div class="fields two" id="extras">
+<label class="field" for="padding">緩衝材（片側cm）<input id="padding" type="number" step="0.1" min="0" inputmode="decimal" value="1"></label>
+<label class="field" for="wall">箱の壁の厚み（片側cm）<input id="wall" type="number" step="0.1" min="0" inputmode="decimal" value="0.3"></label>
+</div>
+<div style="margin-top:14px">
+<label class="field" for="weight">梱包後の総重量（kg）</label>
+<input id="weight" type="number" step="0.1" min="0.01" inputmode="decimal" value="1" required style="max-width:160px">
+<p class="helper">箱、テープ、緩衝材の重さも含めます。</p>
+</div>
+<label class="field" for="purpose" style="margin-top:15px">発送の用途</label>
+<select id="purpose">
+<option value="mercari">メルカリで売れた品物</option>
+<option value="ordinary">一般の荷物（メルカリ以外）</option>
+</select>
+<p id="errors" role="alert" aria-live="polite"></p>
+<div class="buttons" style="margin-top:15px"><button type="reset" class="btn alt" style="border:0;cursor:pointer">初期値に戻す</button><button id="copy" type="button" class="btn" style="border:0;cursor:pointer">計算結果をコピー</button></div>
+</form>
+</section>
+<section class="card" aria-labelledby="resulthead">
+<h2 id="resulthead">② サイズと送料</h2>
+<div class="summary" aria-live="polite">
+<small>梱包後の外寸3辺合計（見込み）</small>
+<div class="big" id="sum">— cm</div>
+<small id="dims">箱の外寸：—</small>
+<div class="smallboxes">
+<div><span>ヤマト宅急便の目安</span><strong id="yamato">—</strong></div>
+<div><span>ゆうパックの目安</span><strong id="japanpost">—</strong></div>
+</div>
+</div>
+<div id="uncertainty" class="notice"></div>
+<div id="options" aria-live="polite"></div>
+<p class="helper">メルカリ便はメルカリ上の取引にのみ利用できます。一般発送の送料は発送元・宛先によって変わります。</p>
+</section>
+</div>
+<section class="card" aria-labelledby="buyhead">
+<h2 id="buyhead">③ 必要な梱包用品を探す</h2>
+<p id="inner" class="lead"></p>
+<div class="notice">箱は<strong>内寸が品物＋緩衝材の必要寸法以上</strong>か確認してください。配送のサイズ判定では箱の<strong>外寸</strong>が基準です。箱の表示が「内寸」か「外寸」かも確認してください。</div>
+<div class="gridlinks">
+<a id="search-box-amazon" href="https://www.amazon.co.jp/" target="_blank" rel="noopener noreferrer">Amazonで段ボールを探す ↗</a>
+<a id="search-box-rakuten" href="https://search.rakuten.co.jp/" target="_blank" rel="noopener noreferrer">楽天市場で段ボールを探す ↗</a>
+<a id="search-cushion" href="https://www.amazon.co.jp/" target="_blank" rel="noopener noreferrer">Amazonで緩衝材を探す ↗</a>
+<a href="https://help.jp.mercari.com/guide/categories/314/" target="_blank" rel="noopener noreferrer">メルカリストアの梱包資材案内 ↗</a>
+</div>
+<p class="helper">上記は商品の検索ページ・公式案内への通常リンクです。価格・在庫・商品との適合は未確認です。<strong>現在、広告・成果報酬リンクは設定されていません。</strong></p>
+</section>
+<section class="card">
+<h2>送料を正しく比較するために</h2>
+<ul class="bullet">
+<li>メルカリ便の表示送料は公式案内に基づく全国一律の税込料金です。サイズ確定は配送事業者の計測結果によります。</li>
+<li>品物寸法からの計算は、緩衝材や箱の厚みの仮定を使った<strong>推定外寸</strong>です。実際に梱包してから計測してください。</li>
+<li>一辺170cmを超える品物や、上下逆さまにできない荷物などは発送方法に追加制限があります。</li>
+<li>メルカリ便の規定外や、普通の宅急便／ゆうパックは下記の公式情報で送料を確認してください。</li>
+</ul>
+<p><strong>確認した公式情報（2026年10月31日）</strong></p>
+<ul class="bullet">
+<li><a href="https://help.jp.mercari.com/guide/articles/136/" target="_blank" rel="noopener noreferrer">らくらくメルカリ便 宅急便</a></li>
+<li><a href="https://help.jp.mercari.com/guide/articles/177/" target="_blank" rel="noopener noreferrer">ゆうゆうメルカリ便 ゆうパック</a></li>
+<li><a href="https://www.kuronekoyamato.co.jp/ytc/customer/send/search/payment/size/" target="_blank" rel="noopener noreferrer">ヤマト運輸 宅急便の規格</a>・<a href="https://www.kuronekoyamato.co.jp/ytc/search/estimate/ichiran.html" target="_blank" rel="noopener noreferrer">運賃一覧</a></li>
+<li><a href="https://www.post.japanpost.jp/service/send/domestic/delivery/yu-pack/" target="_blank" rel="noopener noreferrer">日本郵便 ゆうパック</a></li>
+</ul>
+<p class="helper">送料・条件は改定されます。表示と公式情報が異なる場合は必ず公式情報を優先してください。箱ぴたは各配送事業者と無関係の独立ツールです。</p>
+</section>
+<p class="lead"><a href="/">元の梱包サイズ計算へ</a> ／ <a href="/box-guide.html">60・80・100サイズの箱の選び方</a> ／ <a href="/advertise.html">事業者向け広告・提携相談</a></p>
+</main>
+<footer>箱ぴた / 発送サイズ・送料の目安を調べる無料ツール。入力した寸法を外部送信しません。通販リンクには現時点でアフィリエイトコードを含みません。</footer>
+<script type="module">
+import {estimate,OFFICIAL} from "./shipping-compare.mjs";
+const $=id=>document.getElementById(id);
+const ids=["length","width","height","weight","padding","wall"];
+let last=null;
+const fmt=n=>Number(n.toFixed(1)).toLocaleString("ja-JP");
+const safeText=(el,s)=>{el.textContent=s};
+function update(){
+  const mode=document.querySelector('input[name="mode"]:checked').value;
+  const extras=$("extras");extras.hidden=mode==="packed";
+  try{
+    const vals=Object.fromEntries(ids.map(k=>[k,$(k).value===""?NaN:Number($(k).value)]));
+    const r=estimate({...vals,mode});
+    last=r;safeText($("errors"),"");
+    safeText($("sum"),fmt(r.sum)+" cm");
+    safeText($("dims"),"見込み外寸："+r.outer.map(fmt).join(" × ")+"cm");
+    safeText($("yamato"),r.yamato?r.yamato+"サイズ":"規格外の可能性");
+    safeText($("japanpost"),r.japanpost?r.japanpost+"サイズ":"規格外の可能性");
+    safeText($("uncertainty"),r.uncertain?
+      "これは品物寸法から求めた概算です。箱の厚み、実際の包み方で発送サイズが変わります。":
+      "入力した梱包後の外寸を使って判定しています。実際の荷物をもう一度確認してください。");
+    const options=$("options");options.replaceChildren();
+    const isMercari=$("purpose").value==="mercari";
+    const head=document.createElement("h3");
+    head.textContent=isMercari?"メルカリ便の送料比較":"一般発送の公式料金確認";
+    head.style.marginTop="24px";options.appendChild(head);
+    if(isMercari){
+      if(!r.results.length){
+        const p=document.createElement("p");p.className="notice";
+        p.textContent="入力条件で使える通常のメルカリ便（宅急便／ゆうパック）は見つかりません。大型品や特殊な発送は公式案内で確認してください。";options.appendChild(p);
+      }
+      r.results.forEach((item,i)=>{
+        const card=document.createElement("div");
+        card.className="option"+(item.price===r.bestPrice?" best":"");
+        const left=document.createElement("div");
+        if(item.price===r.bestPrice){const badge=document.createElement("span");badge.className="badge";badge.textContent="表示中の最安料金";left.appendChild(badge)}
+        const name=document.createElement("strong");name.textContent=item.name;left.appendChild(name);
+        const detail=document.createElement("small");detail.textContent=item.size+"サイズ / "+item.notes;left.appendChild(detail);
+        const link=document.createElement("a");link.href=item.href;link.target="_blank";link.rel="noopener noreferrer";link.textContent="公式の条件を確認";link.style.fontSize="12px";left.appendChild(link);
+        const price=document.createElement("em");price.textContent=item.price.toLocaleString("ja-JP")+"円";
+        card.append(left,price);options.appendChild(card);
+      });
+    }else{
+      const arr=[
+        ["ヤマト宅急便",r.yamato,OFFICIAL.yamatoFare],
+        ["日本郵便 ゆうパック",r.japanpost,OFFICIAL.yuPack]
+      ];
+      arr.forEach(([name,size,href])=>{
+        const card=document.createElement("div");card.className="option";
+        const left=document.createElement("div"),strong=document.createElement("strong");
+        strong.textContent=name;left.appendChild(strong);
+        const detail=document.createElement("small");detail.textContent=size?size+"サイズ目安。送料は発送元・宛先で変わります。":"通常規格外の可能性。公式条件を確認。";
+        left.appendChild(detail);
+        const link=document.createElement("a");link.href=href;link.target="_blank";link.rel="noopener noreferrer";link.textContent="公式の料金を調べる";
+        card.append(left,link);options.appendChild(card);
+      });
+    }
+    if(r.mode==="item"){
+      $("inner").textContent="必要な箱の内寸：最低 "+r.inner.map(fmt).join(" × ")+"cm（緩衝材込みの概算）。"+r.materials.description+"を中心に、寸法を確認して選んでください。";
+    }else{
+      $("inner").textContent="現在の梱包後外寸："+r.outer.map(fmt).join(" × ")+"cm。新しい箱に入れ直す場合は品物の寸法を測り、緩衝材を見込んでから選んでください。";
+    }
+    const size=r.materials.suggested;
+    const query=size?"ダンボール "+size+"サイズ 梱包":"梱包 段ボール 大型";
+    $("search-box-amazon").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(query);
+    $("search-box-rakuten").href="https://search.rakuten.co.jp/search/mall/"+encodeURIComponent(query)+"/";
+    $("search-cushion").href="https://www.amazon.co.jp/s?k="+encodeURIComponent("梱包用 緩衝材 エアクッション");
+  }catch(e){
+    last=null;
+    $("errors").textContent=e.message;
+    $("sum").textContent="— cm";$("dims").textContent="入力を確認してください";
+    $("yamato").textContent="—";$("japanpost").textContent="—";
+    $("options").replaceChildren();$("inner").textContent="正しい寸法を入力すると、箱の選び方を表示します。";
+    $("uncertainty").textContent="";
+  }
+}
+$("shipment").addEventListener("input",update);
+$("purpose").addEventListener("change",update);
+document.querySelectorAll('input[name="mode"]').forEach(x=>x.addEventListener("change",update));
+$("shipment").addEventListener("reset",()=>setTimeout(update,0));
+$("shipment").addEventListener("submit",e=>e.preventDefault());
+$("copy").addEventListener("click",async()=>{
+  if(!last)return;
+  const msg="箱ぴた 送料比較\n外寸目安: "+last.outer.map(fmt).join("×")+"cm / 3辺合計 "+fmt(last.sum)+"cm\n"+
+    (document.getElementById("purpose").value==="mercari"?last.results.map(x=>x.name+" "+x.size+"サイズ "+x.price+"円").join("\n"):"一般発送の料金は公式サイトで確認");
+  try{await navigator.clipboard.writeText(msg);$("copy").textContent="コピーしました"}catch{$("copy").textContent="コピーできませんでした"}
+  setTimeout(()=>$("copy").textContent="計算結果をコピー",1800);
+});
+update();
+</script></body></html>
