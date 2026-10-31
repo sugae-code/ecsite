@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#061827">
-<meta name="description" content="Tidebite is a free underwater browser arcade game. Eat smaller fish, avoid predators, and grow as much as you can in 75 seconds.">
+<meta name="description" content="Tidebite is a free underwater browser arcade game. Eat smaller fish, avoid predators, and survive escalating 75-second tides.">
 <title>Tidebite — Ocean Growth Arcade</title>
 <link rel="stylesheet" href="./tidebite.css">
 </head>
@@ -16,20 +16,20 @@
 <div class="hud">
 <div><small>SCORE</small><b id="score">0</b></div>
 <div><small>SIZE</small><b id="size">1.0×</b></div>
-<div><small>TIME</small><b id="time">75</b></div>
+<div><small>TIDE <span id="tide">1</span></small><b id="time">75</b></div>
 <div><small>LIVES</small><b id="lives">♥♥♥</b></div>
 </div>
 <div id="toast"></div>
 <div class="overlay" id="overlay">
 <div class="fishicon">🐠</div>
 <h1>Eat. Grow. <em>Survive.</em></h1>
-<p>Guide your fish through a colorful reef. Eat smaller fish, avoid giant predators, and become the biggest fish in 75 seconds.</p>
+<p>Guide your fish through a colorful reef. Eat smaller fish, dodge giant predators, and survive wave after wave. Every 75 seconds, the tide grows stronger and you earn a bonus.</p>
 <button id="play" class="play">PLAY NOW</button>
 <small id="result">Touch or mouse to swim · WASD / arrow keys · Space to dash</small>
 </div>
 <div id="energy"><div id="energybar"></div></div>
 </div>
-<div class="controls"><p>Eat smaller fish. Dodge the bigger ones. Keep your combo alive.</p><div><button id="pause">PAUSE</button><button id="dash">⚡ DASH</button><button id="sound">🔇 SOUND</button></div></div>
+<div class="controls"><p>Eat smaller fish. Dodge predators. Survive each tide and keep your combo alive.</p><div><button id="pause">PAUSE</button><button id="dash">⚡ DASH</button><button id="sound">🔇 SOUND</button></div></div>
 <footer>An original HTML5 browser game. No account, third-party ads, or purchases.</footer>
 </main>
 <script type="module" src="./tidebite.mjs"></script>
