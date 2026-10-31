@@ -1,0 +1,69 @@
+name: Build BOOTH Offline Game Package
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'games/mote-and-maw/**'
+      - '.github/workflows/build-booth-offline.yml'
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test original arcade engine
+        run: |
+          node --test games/mote-and-maw/engine.test.mjs games/mote-and-maw/crazygames-bridge.test.mjs
+          node --check games/mote-and-maw/game.mjs
+      - name: Bundle JavaScript so index.html works offline from file URL
+        run: |
+          npm install --no-save --no-package-lock esbuild@0.25.12
+          mkdir -p artifacts/offline
+          ./node_modules/.bin/esbuild games/mote-and-maw/game.mjs --bundle --format=iife --platform=browser --target=es2020 --minify --outfile=artifacts/offline/game.bundle.js
+          cp games/mote-and-maw/style.css artifacts/offline/style.css
+          cp games/mote-and-maw/BOOTH_README_JA.txt artifacts/offline/はじめにお読みください.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('games/mote-and-maw/index.html')
+          html=p.read_text(encoding='utf-8')
+          original='<script type="module" src="game.mjs"></script>'
+          assert html.count(original)==1, 'Script entrypoint changed'
+          html=html.replace(original,'<script src="game.bundle.js"></script>')
+          Path('artifacts/offline/index.html').write_text(html, encoding='utf-8')
+          PY
+      - name: Verify no network scripts or extra files
+        run: |
+          test -s artifacts/offline/index.html
+          test -s artifacts/offline/game.bundle.js
+          grep -F 'game.bundle.js' artifacts/offline/index.html
+          ! grep -F 'type="module"' artifacts/offline/index.html
+          test "$(find artifacts/offline -maxdepth 1 -type f | wc -l)" -eq 4
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile,hashlib
+          folder=Path('artifacts/offline')
+          output=Path('artifacts/Mote-and-Maw-Offline-JP.zip')
+          with zipfile.ZipFile(output,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
+              for p in sorted(folder.iterdir()):
+                  archive.write(p,p.name)
+          with zipfile.ZipFile(output) as archive:
+              names=set(archive.namelist())
+              assert {'index.html','style.css','game.bundle.js','はじめにお読みください.txt'}==names
+          (Path('artifacts')/'SHA256.txt').write_text(
+              hashlib.sha256(output.read_bytes()).hexdigest()+'  '+output.name+'\n'
+          )
+          print(output,output.stat().st_size)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Mote-and-Maw-BOOTH-offline-package
+          path: |
+            artifacts/Mote-and-Maw-Offline-JP.zip
+            artifacts/SHA256.txt
+          retention-days: 90
+          if-no-files-found: error
