@@ -1,0 +1,34 @@
+name: Test Mote & Maw
+on:
+  push:
+    paths:
+      - 'games/mote-and-maw/**'
+      - '.github/workflows/check-mote-and-maw.yml'
+  pull_request:
+    paths:
+      - 'games/mote-and-maw/**'
+      - '.github/workflows/check-mote-and-maw.yml'
+permissions:
+  contents: read
+jobs:
+  game-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check games/mote-and-maw/engine.mjs
+          node --check games/mote-and-maw/game.mjs
+      - name: Run deterministic game simulation tests
+        run: node --test games/mote-and-maw/engine.test.mjs
+      - name: Check static bundle and external dependency budget
+        run: |
+          test -s games/mote-and-maw/index.html
+          test -s games/mote-and-maw/style.css
+          test -s games/mote-and-maw/engine.mjs
+          test -s games/mote-and-maw/game.mjs
+          test "$(du -sb games/mote-and-maw | cut -f1)" -lt 20000000
+          ! grep -Eiq '<script[^>]+src="https?://' games/mote-and-maw/index.html
