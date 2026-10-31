@@ -44,6 +44,7 @@ a{color:#087d88}li{margin:10px 0}footer{max-width:900px;margin:auto;padding:25px
 <div class="size"><span>ゆうパック</span><strong id="japanpost">—</strong></div>
 </div></div><p class="note">箱の厚みなどを含めた<strong>実際の外寸</strong>で確認してください。宅急便は重さでもサイズが上がります。</p>
 <button type="button" id="copy" class="secondary">結果をコピー</button></section></div>
+<section id="sponsorSection" class="card" style="margin-top:22px" hidden aria-label="広告・スポンサー"><h2>広告・PR</h2><div id="sponsorItems"></div><p style="font-size:12px;color:#5a7280">この欄は有料掲載です。配送事業者の公式推奨を意味しません。</p></section>
 <section class="card" style="margin-top:22px"><h2>どこまで信用できる計算？</h2>
 <p>緩衝材の余裕を品物の各辺の両側に加えています。実際の箱の外寸、品物の形、1辺の上限、梱包方法、荷物の種類、重さ、発送場所によってはこの結果で配送できないことがあります。最終的には配送事業者の案内を優先してください。</p>
 <p><strong>公式情報</strong></p><ul>
@@ -60,6 +61,7 @@ a{color:#087d88}li{margin:10px 0}footer{max-width:900px;margin:auto;padding:25px
 事業者さま向け：<a href="/advertise.html">広告掲載・業務提携のご相談</a></footer>
 <script type="module">
 import {classify} from './calc.mjs';
+import {visibleSponsors} from './sponsors.mjs';
 const $=id=>document.getElementById(id);let copyText='';
 function update(){
  try{
@@ -76,5 +78,18 @@ $('form').addEventListener('input',update);
 $('form').addEventListener('submit',e=>{e.preventDefault();update()});
 $('reset').addEventListener('click',()=>{$('form').reset();update()});
 $('copy').addEventListener('click',async()=>{if(!copyText)return;try{await navigator.clipboard.writeText(copyText);$('copy').textContent='コピーしました'}catch{$('copy').textContent='コピーに失敗しました'}setTimeout(()=>$('copy').textContent='結果をコピー',1800)});
+const approved=visibleSponsors();
+if(approved.length){
+ const wrap=$('sponsorItems');
+ for(const item of approved){
+   const a=document.createElement('a');
+   a.href=item.href;
+   a.target='_blank'; a.rel='sponsored noopener noreferrer';
+   a.textContent=item.label;
+   a.style.cssText='display:block;padding:13px;margin:9px 0;background:#edf7f8;border:1px solid #cee4e8;border-radius:8px;';
+   wrap.appendChild(a);
+ }
+ $('sponsorSection').hidden=false;
+}
 update();
 </script></body></html>
