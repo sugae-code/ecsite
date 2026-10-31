@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>メルカリ便の送料比較・梱包箱サイズ計算｜箱ぴた</title>
-<meta name="description" content="らくらくメルカリ便とゆうゆうメルカリ便の宅急便・ゆうパック送料をサイズ・重量から自動比較。品物寸法から必要な箱の内寸、発送サイズ、購入する梱包用品を探せます。無料・登録不要。">
+<title>メルカリ送料比較｜ゆうパケットポストmini・ネコポスから宅急便まで｜箱ぴた</title>
+<meta name="description" content="メルカリ送料を無料で比較。ゆうパケットポストmini160円、ネコポス210円、ゆうパケットポスト215円、宅急便などを寸法・重量から自動判定。専用資材の条件と梱包箱の内寸も確認。">
 <meta name="theme-color" content="#10263b">
 <link rel="canonical" href="https://hakopita-m84e27.deed.page/compare.html">
 <meta property="og:title" content="メルカリ便の送料・梱包サイズ比較｜箱ぴた">
@@ -101,7 +101,7 @@ footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#
 </div>
 <div id="uncertainty" class="notice"></div>
 <div id="options" aria-live="polite"></div>
-<p class="helper">この比較は宅急便・ゆうパックのみです。ネコポス、宅急便コンパクト、ゆうパケットなどの小型配送は含みません。メルカリ便はメルカリ上の取引にのみ利用できます。一般発送の送料は発送元・宛先によって変わります。</p>
+<p class="helper">小型配送（ゆうパケットポストmini・ネコポス・ゆうパケットポスト・ゆうパケット）と宅急便・ゆうパックを比較します。<strong>専用封筒・専用シールなどの資材代は送料に含みません。</strong> 宅急便コンパクトとゆうパケットプラスは現在の自動判定の対象外です。メルカリ便はメルカリ取引専用です。</p>
 </section>
 </div>
 <section class="card" aria-labelledby="buyhead">
@@ -126,6 +126,10 @@ footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#
 </ul>
 <p><strong>確認した公式情報（2026年10月31日）</strong></p>
 <ul class="bullet">
+<li><a href="https://help.jp.mercari.com/guide/articles/1479/" target="_blank" rel="noopener noreferrer">ゆうパケットポストmini（専用封筒必須）</a></li>
+<li><a href="https://help.jp.mercari.com/guide/articles/01G14Y9S96BAJHBKRRSVWZKDRC/" target="_blank" rel="noopener noreferrer">ネコポス（最小サイズ等の条件あり）</a></li>
+<li><a href="https://help.jp.mercari.com/guide/articles/834/" target="_blank" rel="noopener noreferrer">ゆうパケットポスト（専用箱または発送用シール必須）</a></li>
+<li><a href="https://help.jp.mercari.com/guide/articles/176/" target="_blank" rel="noopener noreferrer">ゆうパケット</a></li>
 <li><a href="https://help.jp.mercari.com/guide/articles/136/" target="_blank" rel="noopener noreferrer">らくらくメルカリ便 宅急便</a></li>
 <li><a href="https://help.jp.mercari.com/guide/articles/177/" target="_blank" rel="noopener noreferrer">ゆうゆうメルカリ便 ゆうパック</a></li>
 <li><a href="https://www.kuronekoyamato.co.jp/ytc/customer/send/search/payment/size/" target="_blank" rel="noopener noreferrer">ヤマト運輸 宅急便の規格</a>・<a href="https://www.kuronekoyamato.co.jp/ytc/search/estimate/ichiran.html" target="_blank" rel="noopener noreferrer">運賃一覧</a></li>
@@ -164,17 +168,17 @@ function update(){
     head.textContent=isMercari?"メルカリ便の送料比較":"一般発送の公式料金確認";
     head.style.marginTop="24px";options.appendChild(head);
     if(isMercari){
-      if(!r.results.length){
+      if(!r.recommendedResults.length){
         const p=document.createElement("p");p.className="notice";
         p.textContent="入力条件で使える通常のメルカリ便（宅急便／ゆうパック）は見つかりません。大型品や特殊な発送は公式案内で確認してください。";options.appendChild(p);
       }
-      r.results.forEach((item,i)=>{
+      r.recommendedResults.forEach((item,i)=>{
         const card=document.createElement("div");
         card.className="option"+(item.price===r.bestPrice?" best":"");
         const left=document.createElement("div");
-        if(item.price===r.bestPrice){const badge=document.createElement("span");badge.className="badge";badge.textContent="表示中の最安料金";left.appendChild(badge)}
+        if(item.price===r.bestPrice){const badge=document.createElement("span");badge.className="badge";badge.textContent="比較した候補の最安送料（資材代別）";left.appendChild(badge)}
         const name=document.createElement("strong");name.textContent=item.name;left.appendChild(name);
-        const detail=document.createElement("small");detail.textContent=item.size+"サイズ / "+item.notes;left.appendChild(detail);
+        const detail=document.createElement("small");detail.textContent=(item.size==="小型"?"小型配送":item.size+"サイズ")+" / "+item.notes+(item.requiredSupply?" / "+item.requiredSupply:"");left.appendChild(detail);
         const link=document.createElement("a");link.href=item.href;link.target="_blank";link.rel="noopener noreferrer";link.textContent="公式の条件を確認";link.style.fontSize="12px";left.appendChild(link);
         const price=document.createElement("em");price.textContent=item.price.toLocaleString("ja-JP")+"円";
         card.append(left,price);options.appendChild(card);
@@ -198,6 +202,11 @@ function update(){
       $("inner").textContent="必要な箱の内寸：最低 "+r.inner.map(fmt).join(" × ")+"cm（緩衝材込みの概算）。"+r.materials.description+"を中心に、寸法を確認して選んでください。";
     }else{
       $("inner").textContent="現在の梱包後外寸："+r.outer.map(fmt).join(" × ")+"cm。新しい箱に入れ直す場合は品物の寸法を測り、緩衝材を見込んでから選んでください。";
+    }
+    const first=r.recommendedResults?.[0];
+    const special=["mini","packetpost"].includes(first?.id);
+    if(special){
+      $("inner").textContent+=" もっとも安い候補は専用資材が必要な方式です。専用封筒・シールの購入場所は各サービスの公式ページを確認してください。";
     }
     const size=r.materials.suggested;
     const query=size?"ダンボール "+size+"サイズ 梱包":"梱包 段ボール 大型";
@@ -237,7 +246,7 @@ $("shipment").addEventListener("submit",e=>e.preventDefault());
 $("copy").addEventListener("click",async()=>{
   if(!last)return;
   const msg="箱ぴた 送料比較\n外寸目安: "+last.outer.map(fmt).join("×")+"cm / 3辺合計 "+fmt(last.sum)+"cm\n"+
-    (document.getElementById("purpose").value==="mercari"?last.results.map(x=>x.name+" "+x.size+"サイズ "+x.price+"円").join("\n"):"一般発送の料金は公式サイトで確認");
+    (document.getElementById("purpose").value==="mercari"?last.recommendedResults.map(x=>x.name+" "+x.size+" "+x.price+"円（資材代別）").join("\n"):"一般発送の料金は公式サイトで確認");
   try{await navigator.clipboard.writeText(msg);$("copy").textContent="コピーしました"}catch{$("copy").textContent="コピーできませんでした"}
   setTimeout(()=>$("copy").textContent="計算結果をコピー",1800);
 });
