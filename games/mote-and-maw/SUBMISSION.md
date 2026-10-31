@@ -14,7 +14,7 @@ Repository: https://github.com/sugae-code/ecsite/tree/main/games/mote-and-maw
 
 **Controls:** Move using mouse, touch, WASD or arrow keys. Press SPACE or PULSE to repel hunters at the expense of 13% of your size. Restart using ENTER or the on-screen button. Sound is optional.
 
-## Upload and approval requirements
+## Reproducible CrazyGames game upload\n\nRun `bash games/mote-and-maw/build-crazygames.sh` from the repository checkout. It runs the engine and SDK bridge tests, refuses an enabled/unapproved advertising flag, and emits a five-file `mote-and-maw-crazygames-build.zip` with a SHA-256 digest. **Only upload that ZIP as the game build.** Upload the three cover PNGs and two preview MP4s separately in the developer portal. This prevents mistakenly uploading the combined media/submission kit as a runtime build. If an older local ZIP differs from the current GitHub source, rebuild from the repository before submission.\n\n## Upload and approval requirements
 
 - Upload `index.html`, `style.css`, `engine.mjs`, `game.mjs`, `crazygames-bridge.mjs` as a root-level static HTML5 build.
 - Three required cover art ratios: landscape, square, portrait. Two short preview videos. These binaries are prepared separately in the existing owner-supplied submission ZIP, not in this repository.
