@@ -53,6 +53,6 @@ test("invalid inputs rejected without misleading prices",()=>{
 });
 test("official sizes and fees are explicitly enumerated",()=>{
  assert.equal(MERCARI_RAKURAKU[7][2],2500);
- assert.equal(MERCARI_YUYU[6][2],1900);
+ assert.equal(MERCARI_YUYU[6][1],1900);
  assert.equal(materialsFor({inner:[30,20,10],outer:[31,21,11],sum:63}).suggested,80);
 });
