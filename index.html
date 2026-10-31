@@ -38,11 +38,11 @@ a{color:#087d88}li{margin:10px 0}footer{max-width:900px;margin:auto;padding:25px
 </div><button type="submit">計算する</button><button type="button" class="secondary" id="reset">リセット</button>
 <p id="error" role="alert"></p></form></section>
 <section class="card"><h2>② 発送サイズの目安</h2><div class="result">
-<small>緩衝材を含む3辺合計</small><div id="sum" class="big">— cm</div><small id="dim">外寸の目安：—</small>
+<small>緩衝材込みの必要寸法3辺合計（箱の厚みを除く）</small><div id="sum" class="big">— cm</div><small id="dim">必要な内寸の目安：—</small>
 <div class="sizes" style="margin-top:18px">
 <div class="size"><span>ヤマト宅急便</span><strong id="yamato">—</strong></div>
 <div class="size"><span>ゆうパック</span><strong id="japanpost">—</strong></div>
-</div></div><p class="note">箱の厚みなどを含めた<strong>実際の外寸</strong>で確認してください。宅急便は重さでもサイズが上がります。</p>
+</div></div><p class="note">ここに表示する寸法は<strong>箱の厚みを含まない必要内寸の目安</strong>です。宅急便などのサイズは参考区分で、実際の箱の<strong>外寸</strong>と梱包後の重さで再確認してください。</p>
 <button type="button" id="copy" class="secondary">結果をコピー</button></section></div>
 <section id="sponsorSection" class="card" style="margin-top:22px" hidden aria-label="広告・スポンサー"><h2>広告・PR</h2><div id="sponsorItems"></div><p style="font-size:12px;color:#5a7280">この欄は有料掲載です。配送事業者の公式推奨を意味しません。</p></section>
 <section class="card" style="margin-top:22px"><h2>どこまで信用できる計算？</h2>
@@ -68,12 +68,12 @@ function update(){
  try{
  const keys=['length','width','height','pad','weight'];const vals=Object.fromEntries(keys.map(k=>[k,Number($(k).value)]));
  const r=classify(vals), format=n=>Number(n.toFixed(1)).toLocaleString('ja-JP');
- $('sum').textContent=format(r.sum)+' cm';$('dim').textContent='必要寸法の目安：'+r.dimensions.map(format).join(' × ')+'cm';
+ $('sum').textContent=format(r.sum)+' cm';$('dim').textContent='必要な内寸の目安：'+r.dimensions.map(format).join(' × ')+'cm';
  $('yamato').textContent=r.yamato?r.yamato+'サイズ':'規格外の可能性';
  $('japanpost').textContent=r.japanpost?r.japanpost+'サイズ':'通常規格外';
  $('error').textContent='';
  copyText='箱ぴた：3辺'+format(r.sum)+'cm、宅急便'+(r.yamato??'対象外')+'、ゆうパック'+(r.japanpost??'対象外');
- }catch(e){$('error').textContent=e.message;$('sum').textContent='— cm';copyText=''}
+ }catch(e){$('error').textContent=e.message;$('sum').textContent='— cm';$('dim').textContent='—';$('yamato').textContent='—';$('japanpost').textContent='—';copyText=''}
 }
 $('form').addEventListener('input',update);
 $('form').addEventListener('submit',e=>{e.preventDefault();update()});
