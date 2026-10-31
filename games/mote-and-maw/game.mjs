@@ -1,4 +1,7 @@
 import { WORLD, STAGES, createGame, tick, pulse, setTarget, radius, stageFor, clamp } from './engine.mjs';
+import { createCrazyGamesBridge, loadCrazyGamesSdk } from './crazygames-bridge.mjs';
+// Change only after CrazyGames formally approves a monetized Full Launch.
+const CRAZYGAMES_FULL_LAUNCH_APPROVED = false;
 const $ = id => document.getElementById(id);
 const canvas = $('scene');
 const ctx = canvas.getContext('2d', { alpha: false });
@@ -7,7 +10,16 @@ let view = { width: 1, height: 1, scale: 1, cx: game.player.x, cy: game.player.y
 let last = performance.now();
 let particles = [];
 let waves = [];
-let soundOn = false, audio = null;
+let soundOn = false, audio = null, platformMuted = false;
+const platform = createCrazyGamesBridge({
+  hostname: window.location.hostname,
+  loadSdk: () => loadCrazyGamesSdk(window),
+  onMute: muted => {
+    platformMuted = muted;
+    if (muted && audio?.state === 'running') void audio.suspend().catch(() => {});
+    if (!muted && soundOn && audio?.state === 'suspended') void audio.resume().catch(() => {});
+  },
+});
 let toastUntil = 0, firstMove = false, best = 0;
 const stageNames = ['SPARK', 'SHIMMER', 'GLIDER', 'RADIANT', 'STARLING', 'BLOOM'];
 try { best = Number(localStorage.getItem('mote-maw-best-v1')) || 0; } catch (_) { /* Private mode. */ }
@@ -55,7 +67,7 @@ window.addEventListener('keydown', e => {
 window.addEventListener('keyup', e => { keys.delete(e.key.toLowerCase()); updateKeys(); });
 window.addEventListener('blur', () => { keys.clear(); updateKeys(); last = performance.now(); });
 function tone(freq = 360, duration = .07, type = 'sine', gain = .045) {
-  if (!soundOn) return;
+  if (!soundOn || platformMuted) return;
   try {
     audio ||= new (window.AudioContext || window.webkitAudioContext)();
     if (audio.state === 'suspended') audio.resume();
@@ -72,6 +84,7 @@ function triggerPulse() { if (pulse(game)) { processEvents(); game.events = []; 
 $('pulse').addEventListener('click', e => { e.preventDefault(); triggerPulse(); });
 $('restart').addEventListener('click', restart);
 function restart() {
+  platform.start();
   game = createGame((Math.random() * 4294967295) >>> 0);
   particles = []; waves = []; keys.clear(); firstMove = false;
   view.cx = game.player.x; view.cy = game.player.y;
@@ -93,6 +106,7 @@ function updateHud() {
   $('cooldown').textContent = game.pulseCooldown > 0 ? `${game.pulseCooldown.toFixed(1)}s RECHARGE` : 'SPACE · -13% SIZE';
 }
 function finish() {
+  platform.stop();
   best = Math.max(best, game.score);
   try { localStorage.setItem('mote-maw-best-v1', String(best)); } catch (_) { /* Storage optional. */ }
   $('best').textContent = best.toLocaleString('en-US');
@@ -103,6 +117,19 @@ function finish() {
   $('final-best').textContent = best.toLocaleString('en-US');
   $('result').hidden = false;
   tone(game.status === 'won' ? 700 : 190, .4, 'triangle', .09);
+  // An interstitial is allowed only at a real round break, never during play.
+  // CrazyGames Basic Launch is not monetized, so this remains inactive until approval.
+  if (CRAZYGAMES_FULL_LAUNCH_APPROVED && game.time >= 180) {
+    $('restart').disabled = true;
+    void platform.midgameAd({
+      approved: true,
+      onStart: () => { if (audio?.state === 'running') void audio.suspend().catch(() => {}); },
+      onFinish: () => {
+        if (soundOn && !platformMuted && audio?.state === 'suspended') void audio.resume().catch(() => {});
+        $('restart').disabled = false;
+      },
+    }).then(() => { $('restart').disabled = false; });
+  }
 }
 function processEvents() {
   for (const e of game.events) {
@@ -212,5 +239,8 @@ function frame(now) {
   if(now>toastUntil)$('toast').classList.remove('show');
   draw(now/1000);requestAnimationFrame(frame);
 }
-updateHud();requestAnimationFrame(frame);
+updateHud();
+platform.start();
+void platform.init();
+requestAnimationFrame(frame);
 Object.defineProperty(window,'moteMawQA',{get:()=>Object.freeze({status:game.status,score:game.score,mass:game.player.mass,health:game.player.hp,entities:game.entities.length,time:game.time,canvas:{width:canvas.width,height:canvas.height}})});
