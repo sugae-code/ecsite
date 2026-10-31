@@ -1,4 +1,4 @@
-import { WORLD, STAGES, createGame, tick, pulse, setTarget, radius, stageFor, clamp } from './engine.mjs';
+import { WORLD, STAGES, createGame, tick, pulse, setTarget, radius, stageFor, growthProgress, clamp } from './engine.mjs';
 import { createCrazyGamesBridge, loadCrazyGamesSdk } from './crazygames-bridge.mjs';
 // Change only after CrazyGames formally approves a monetized Full Launch.
 const CRAZYGAMES_FULL_LAUNCH_APPROVED = false;
@@ -99,9 +99,9 @@ function updateHud() {
   $('hearts').textContent = Array.from({ length: 3 }, (_, i) => i < p.hp ? '♥' : '♡').join(' ');
   $('hearts').setAttribute('aria-label', `${p.hp} lives`);
   $('stage').textContent = stageNames[stage];
-  const prev = STAGES[Math.max(0, stage - 1)], next = STAGES[Math.min(stage, STAGES.length - 1)];
+  const next = STAGES[Math.min(stage, STAGES.length - 1)];
   $('mass').textContent = stage >= STAGES.length ? 'FULL BLOOM' : `${Math.floor(p.mass)} / ${next}`;
-  $('growth-fill').style.width = `${stage >= STAGES.length ? 100 : clamp((p.mass - prev) / (next - prev) * 100, 0, 100)}%`;
+  $('growth-fill').style.width = `${growthProgress(p.mass)}%`;
   $('pulse').disabled = game.pulseCooldown > 0 || game.status !== 'playing' || p.mass < 36;
   $('cooldown').textContent = game.pulseCooldown > 0 ? `${game.pulseCooldown.toFixed(1)}s RECHARGE` : 'SPACE · -13% SIZE';
 }
