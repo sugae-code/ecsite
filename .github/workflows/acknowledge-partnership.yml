@@ -1,0 +1,27 @@
+name: Acknowledge relevant partnership inquiries
+on:
+  issues:
+    types: [opened]
+permissions:
+  issues: write
+jobs:
+  acknowledge:
+    if: startsWith(github.event.issue.title, '[提携相談]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                "箱ぴたへのご提案を受け付けました。ありがとうございます。",
+                "",
+                "この公開Issueは情報交換用で、投稿のみで広告掲載・料金請求・契約は成立しません。",
+                "公開欄に個人情報・口座情報・機密事項は投稿しないでください。",
+                "関連性と適法性の確認後、必要に応じてこのスレッドで回答します。",
+                "※このコメントは自動送信です。"
+              ].join("\n")
+            });
