@@ -7,7 +7,7 @@ body:
       value: |
         はこ便ものさしは梱包サイズを無料で計算するサイトです。
         このフォームは公開GitHub Issueになります。氏名・個人の連絡先・口座情報・契約上の秘密・広告の秘密URLなどは絶対に投稿しないでください。
-        投稿だけでは広告掲載契約・料金請求は成立しません。アクセス数や成果は保証しません。
+        投稿だけでは広告掲載契約・料金請求は成立しません。見積内容と受取方法が確定するまで送金しないでください。アクセス数や成果は保証しません。
   - type: input
     id: business
     attributes:
@@ -26,6 +26,27 @@ body:
         - "その他"
     validations:
       required: true
+  - type: input
+    id: landing_page
+    attributes:
+      label: 掲載したい商品・サービスの公開URL（任意）
+      description: "企業公式サイトや商品ページなど、誰でも閲覧できるURLのみ"
+      placeholder: "https://example.com/product"
+    validations:
+      required: false
+  - type: dropdown
+    id: budget
+    attributes:
+      label: ご検討中の予算帯（任意）
+      description: "これは希望予算の確認です。掲載価格の提示や契約の成立ではありません"
+      options:
+        - "未定（見積もりから相談したい）"
+        - "1万円未満"
+        - "1万円〜3万円未満"
+        - "3万円〜10万円未満"
+        - "10万円以上"
+    validations:
+      required: false
   - type: dropdown
     id: payment
     attributes:
@@ -40,8 +61,8 @@ body:
   - type: textarea
     id: proposal
     attributes:
-      label: 掲載したい内容と希望条件
-      description: "公開可能な説明のみ。予算や希望期間も任意"
+      label: 掲載したい内容・希望期間・条件
+      description: "公開可能な説明のみ。希望期間・想定する掲載位置・成果の条件など（個人情報や機密情報は書かないでください）"
     validations:
       required: true
   - type: checkboxes
