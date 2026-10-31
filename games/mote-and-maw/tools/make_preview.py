@@ -6,7 +6,7 @@ import asyncio
 import contextlib
 import functools
 import math
-import shutil
+import imageio_ffmpeg
 import subprocess
 import tempfile
 import threading
@@ -42,7 +42,7 @@ async def capture():
             tmp = Path(temp)
             async with async_playwright() as playwright:
                 browser = await playwright.chromium.launch(
-                    channel="chrome", headless=True,
+                    headless=True,
                     args=["--no-sandbox","--disable-dev-shm-usage"]
                 )
                 try:
@@ -97,7 +97,7 @@ async def capture():
                 (str(portrait/"frame%04d.jpg"), ART/"preview-portrait.mp4", "1080:1620")
             ]
             for source,output,dimensions in commands:
-                cmd=["ffmpeg","-hide_banner","-loglevel","error","-y",
+                cmd=[imageio_ffmpeg.get_ffmpeg_exe(),"-hide_banner","-loglevel","error","-y",
                     "-framerate",str(FPS),"-i",source,
                     "-vf",f"scale={dimensions}",
                     "-an","-c:v","libx264","-pix_fmt","yuv420p",
@@ -112,6 +112,4 @@ async def capture():
         server.server_close()
 
 if __name__ == "__main__":
-    if not shutil.which("ffmpeg"):
-        raise RuntimeError("ffmpeg required")
     asyncio.run(capture())
