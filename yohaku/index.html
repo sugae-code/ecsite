@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1626">
+<meta name="description" content="余白の島。まだ名前のない4,000の架空の場所から、ひとつの景色を見つけて言葉を添える。ログイン不要でお試しできる、オリジナルのデジタル地図です。">
+<title>余白の島 — 名前が生まれるまで、そこは余白だった。</title>
+<link rel="canonical" href="https://hakopita-m84e27.deed.page/yohaku/index.html">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="glow glow-a" aria-hidden="true"></div><div class="glow glow-b" aria-hidden="true"></div>
+<div class="page">
+<header class="topbar">
+ <a class="logo" href="./index.html"><span class="logo-mark">✳</span> 余白の島 <small>THE UNSAID ATLAS</small></a>
+ <a class="top-link" href="#how">この世界について <span aria-hidden="true">↗</span></a>
+</header>
+<main>
+<section class="hero">
+ <div class="eyebrow"><span class="beacon"></span> ひとつの架空世界を、いま公開中</div>
+ <h1>名前が生まれるまで、<br><em>そこは余白だった。</em></h1>
+ <p class="lead">地球上には存在しない、10の地区と4,000の小さな場所。<br>好きな景色を見つけて、名前と、ひとことを置いてみてください。</p>
+ <div class="hero-actions"><a class="primary" href="#atlas">地図をひらく <span aria-hidden="true">↗</span></a><a class="ghost" href="#how">仕組みを見る</a></div>
+ <div class="hero-stats"><div><b>10</b><small>架空の地区</small></div><div><b>4,000</b><small>固有の場所</small></div><div><b>1</b><small>ひとつだけの座標</small></div></div>
+</section>
+<section id="atlas" class="atlas-wrap">
+ <div class="section-head"><div><span class="kicker">01 / THE ATLAS</span><h2>あなたの余白を探す。</h2><p>同じ座標、同じ景色はふたつとありません。</p></div><div class="mode"><span class="beacon"></span> <span id="ledger-status" role="status">公開台帳を確認中…</span></div></div>
+ <div class="atlas-layout">
+  <div class="map-card">
+   <div class="map-toolbar"><div class="map-title"><small>SECTOR / 地区</small><select id="zone" aria-label="地区を選択"></select></div><div class="legend"><span class="legend-open"></span>未登録 <span class="legend-registered"></span>登録済み</div></div>
+   <div class="map-frame"><div class="map-haze" aria-hidden="true"></div><div id="map" class="map" role="group" aria-label="架空の地図、20列×20行"></div><div class="map-label" id="map-label">朝凪 / ASANAGI</div></div>
+   <p class="map-foot">マスを選ぶと、その場所の固有の景色が現れます。<span id="count" aria-live="polite"></span></p>
+  </div>
+  <aside class="detail">
+    <div class="detail-eyebrow">A PLACE IN THE WORLD <span class="line"></span> <span id="place-status">確認中</span></div>
+    <div id="scene-card" class="scene-card"><div class="scene-stars" aria-hidden="true">✦　·　✧　·　✳</div><div class="scene-visual"><span class="sun"></span><span class="mountain back"></span><span class="mountain front"></span></div><div class="scene-card-copy"><small id="scene-region">朝凪</small><h3 id="scene-name">星砂の海岸</h3><span id="scene-id">YS-01-0001</span></div><span class="scene-watermark">YOH A KU</span></div>
+    <div id="current-owner" class="current-owner" hidden><strong id="owner-name"></strong><p id="owner-wish"></p><small id="owner-term"></small></div>
+    <div id="preview-box">
+     <div class="form-intro"><strong>この場所に、名前をつけてみる。</strong><span>無料の見本作成</span></div>
+     <label for="name">置きたい名前 <small>24文字以内</small></label><input id="name" maxlength="24" placeholder="たとえば、ふたりの朝" autocomplete="off">
+     <label for="wish">残したいひとこと <small>68文字以内</small></label><textarea id="wish" maxlength="68" rows="2" placeholder="忘れたくない景色に、言葉をひとつ。"></textarea>
+     <div class="buttons"><button class="btn-main" id="preview" type="button">見本をつくる</button><button class="btn-sub" id="share" type="button">URLを共有</button></div>
+     <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+     <p class="notice"><strong>このページはお試し版です。</strong>見本はURLで共有できますが、命名権の購入や登録はまだできません。入力内容は運営者へ送信されません。共有URLには入力した言葉が含まれるので、個人情報は書かないでください。</p>
+    </div>
+  </aside>
+ </div>
+</section>
+<section class="statement" id="how">
+  <div class="statement-lead"><span class="kicker">02 / THE RULE</span><h2>「何もない」から、<br>ひとつずつ場所をつくる。</h2><p>この地図の価値は、どこかに隠された土地にあるのではありません。座標を決め、景色を生成し、名前を置くルールを公開する。その約束そのものが、新しいデジタルな場所を生みます。</p></div>
+  <div class="rules"><div><b>01</b><h3>場所は有限</h3><p>10地区×400区画。全4,000の座標は固定され、景色は同じ計算方法で何度でも再現できます。</p></div><div><b>02</b><h3>自由に試せる</h3><p>地図の探索と見本作成は無料です。ログインも個人情報の提出も必要ありません。</p></div><div><b>03</b><h3>権利は明確に</h3><p>将来提供を検討しているのは「一定期間の名前と文章の掲載権」。土地所有権や資産価値、値上がりを保証するものではありません。</p></div></div>
+</section>
+<section class="future">
+ <div><span class="kicker">03 / THE NEXT CHAPTER</span><h2>名づけの権利は、<br>まだ発売していません。</h2><p>料金・利用期間・決済・本人への提供条件をそろえたあとに、正式なサービスとして公開する予定です。お試し版でお金を請求することはありません。</p></div>
+ <span class="future-seal">COMING<br>AFTER<br>REVIEW</span>
+</section>
+</main>
+<footer><span>✳ 余白の島 / THE UNSAID ATLAS</span><span>ここはオリジナルの架空世界です。実在する土地・天体の命名権ではありません。</span><small>© 2026 Site operator. All fictional coordinates and code are original.</small></footer>
+</div>
+<script type="module" src="./app.mjs"></script>
+</body>
+</html>
