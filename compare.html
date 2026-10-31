@@ -114,7 +114,7 @@ footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#
 <a id="search-cushion" href="https://www.amazon.co.jp/" target="_blank" rel="noopener noreferrer">Amazonで緩衝材を探す ↗</a>
 <a href="https://help.jp.mercari.com/guide/categories/314/" target="_blank" rel="noopener noreferrer">メルカリストアの梱包資材案内 ↗</a>
 </div>
-<p class="helper">上記は商品の検索ページ・公式案内への通常リンクです。価格・在庫・商品との適合は未確認です。<strong>現在、広告・成果報酬リンクは設定されていません。</strong></p>
+<p class="helper" id="affiliateStatus">上記は商品の検索ページ・公式案内への通常リンクです。価格・在庫・商品との適合は未確認です。現在、広告・成果報酬リンクは設定されていません。</p>
 </section>
 <section class="card">
 <h2>送料を正しく比較するために</h2>
@@ -135,9 +135,10 @@ footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#
 </section>
 <p class="lead"><a href="/">元の梱包サイズ計算へ</a> ／ <a href="/box-guide.html">60・80・100サイズの箱の選び方</a> ／ <a href="/advertise.html">事業者向け広告・提携相談</a></p>
 </main>
-<footer>箱ぴた / 発送サイズ・送料の目安を調べる無料ツール。入力した寸法を外部送信しません。通販リンクには現時点でアフィリエイトコードを含みません。</footer>
+<footer>箱ぴた / 発送サイズ・送料の目安を調べる無料ツール。入力した寸法を外部送信しません。<span id="affiliateFooter">通販リンクは現在、成果報酬リンクではありません。</span></footer>
 <script type="module">
 import {estimate,OFFICIAL} from "./shipping-compare.mjs";
+import {AFFILIATE,chooseAffiliateLink} from "./affiliate-links.mjs";
 const $=id=>document.getElementById(id);
 const ids=["length","width","height","weight","padding","wall"];
 let last=null;
@@ -201,8 +202,24 @@ function update(){
     const size=r.materials.suggested;
     const query=size?"ダンボール "+size+"サイズ 梱包":"梱包 段ボール 大型";
     $("search-box-amazon").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(query);
-    $("search-box-rakuten").href="https://search.rakuten.co.jp/search/mall/"+encodeURIComponent(query)+"/";
-    $("search-cushion").href="https://www.amazon.co.jp/s?k="+encodeURIComponent("梱包用 緩衝材 エアクッション");
+    const rakuten=$("search-box-rakuten");
+    const normalRakuten="https://search.rakuten.co.jp/search/mall/"+encodeURIComponent(query)+"/";
+    const boxAffiliate=chooseAffiliateLink(AFFILIATE,"box",size);
+    rakuten.href=boxAffiliate||normalRakuten;
+    rakuten.textContent=boxAffiliate?"楽天市場で段ボールを探す【広告・PR】":"楽天市場で段ボールを探す ↗";
+    rakuten.rel=boxAffiliate?"sponsored noopener noreferrer":"noopener noreferrer";
+    const cushion=$("search-cushion");
+    const cushionAffiliate=chooseAffiliateLink(AFFILIATE,"cushion",size);
+    cushion.href=cushionAffiliate||"https://www.amazon.co.jp/s?k="+encodeURIComponent("梱包用 緩衝材 エアクッション");
+    cushion.textContent=cushionAffiliate?"楽天市場で緩衝材を探す【広告・PR】":"Amazonで緩衝材を探す ↗";
+    cushion.rel=cushionAffiliate?"sponsored noopener noreferrer":"noopener noreferrer";
+    const monetized=Boolean(boxAffiliate||cushionAffiliate);
+    $("affiliateStatus").textContent=monetized
+      ?"「広告・PR」表示のあるリンクは成果報酬型広告です。購入によって箱ぴた運営者に報酬が発生する場合があります。価格・在庫・適合は販売店でご確認ください。その他は通常リンクです。"
+      :"上記は商品の検索ページ・公式案内への通常リンクです。価格・在庫・商品との適合は未確認です。現在、成果報酬リンクは設定されていません。";
+    $("affiliateFooter").textContent=monetized
+      ?"「広告・PR」のリンクのみ広告です。"
+      :"通販リンクは現在、成果報酬リンクではありません。";
   }catch(e){
     last=null;
     $("errors").textContent=e.message;
