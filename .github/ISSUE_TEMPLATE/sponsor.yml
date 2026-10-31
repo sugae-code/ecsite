@@ -1,7 +1,6 @@
 name: "広告掲載・業務提携の相談"
 description: "箱ぴたへの広告・梱包資材の提携相談（公開フォーム）"
 title: "[提携相談] "
-labels: ["partnership"]
 body:
   - type: markdown
     attributes:
