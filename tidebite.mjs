@@ -1,10 +1,11 @@
 import {W,H,render} from "./tidebite-render.mjs";
+import {tideNumber,secondsToNextTide,fishRadiusRange} from "./tidebite-rules.mjs";
 const $=id=>document.getElementById(id);
 const canvas=$("game"),ctx=canvas.getContext("2d",{alpha:false});
 const rnd=(a,b)=>a+Math.random()*(b-a);
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const colors=["#f4b979","#ff9aab","#92f4d9","#a7b7fa","#d6a4f4","#82c7fa"];
-let state="menu",elapsed=0,score=0,combo=0,comboLeft=0,spawnTimer=0,clock=0,toastLeft=0;
+let state="menu",elapsed=0,tide=1,score=0,combo=0,comboLeft=0,spawnTimer=0,clock=0,toastLeft=0;
 let fish=[],bubbles=[],fx=[],pointer=false,keys=new Set(),sound=false,audio=null;
 let best=0,last=performance.now();
 try{best=Number(localStorage.getItem("tidebite-best")||0)||0;}catch(e){}
@@ -22,7 +23,9 @@ function ping(freq=450,sec=.09,kind="sine"){
 }
 function spawn(initial=false){
  if(fish.length>=44)return;
- const side=Math.floor(rnd(0,4)),r=rnd(9,51)*(1+Math.min(.45,elapsed/180));
+ const side=Math.floor(rnd(0,4));
+ const [minRadius,maxRadius]=fishRadiusRange(p.r,elapsed,Math.random());
+ const r=rnd(minRadius,maxRadius);
  const x=initial?rnd(20,W-20):(side===0?-r*2:side===1?W+r*2:rnd(0,W));
  const y=initial?rnd(78,H-15):(side===2?-r*2:side===3?H+r*2:rnd(65,H-10));
  if(initial&&Math.hypot(x-p.x,y-p.y)<150)return;
@@ -37,12 +40,13 @@ function showToast(t){$("toast").textContent=t;toastLeft=1;}
 function hud(){
  $("score").textContent=score.toLocaleString("en-US");
  $("size").textContent=(p.r/21).toFixed(1)+"×";
- $("time").textContent=Math.max(0,Math.ceil(75-elapsed));
+ $("time").textContent=secondsToNextTide(elapsed);
+ $("tide").textContent=tide;
  $("lives").textContent="♥".repeat(p.hp)+"♡".repeat(3-p.hp);
  $("energybar").style.width=Math.floor(p.energy)+"%";
 }
 function reset(){
- state="play";elapsed=score=combo=comboLeft=spawnTimer=clock=toastLeft=0;
+ state="play";elapsed=score=combo=comboLeft=spawnTimer=clock=toastLeft=0;tide=1;
  pointer=false;fish=[];fx=[];bubbles=[];
  p={x:W/2,y:H/2,r:21,dir:1,vx:0,vy:0,tx:W/2,ty:H/2,hp:3,inv:0,energy:100};
  for(let i=0;i<34;i++)bubbles.push({x:rnd(0,W),y:rnd(0,H),r:rnd(1,4),v:rnd(8,30),phase:rnd(0,6.28)});
@@ -53,7 +57,7 @@ function reset(){
 function finish(){
  state="over";pointer=false;
  if(score>best){best=score;try{localStorage.setItem("tidebite-best",String(best))}catch(e){}}
- const title=p.hp===0?"The ocean <em>wins.</em>":"Time's <em>up!</em>";
+ const title="The ocean <em>wins.</em>";
  $("overlay").querySelector("h1").innerHTML=title;
  $("overlay").querySelector("p").innerHTML="Score: <b>"+score.toLocaleString("en-US")+"</b> · Best: <b>"+best.toLocaleString("en-US")+"</b><br>One more dive?";
  $("result").textContent="Eat the smaller fish and keep your streak alive!";
@@ -87,6 +91,15 @@ function tick(dt){
  toastLeft=Math.max(0,toastLeft-dt);$("toast").style.opacity=Math.min(1,toastLeft*2);
  if(state!=="play")return;
  elapsed+=dt;
+ const newTide=tideNumber(elapsed);
+ if(newTide>tide){
+  tide=newTide;
+  score+=tide*120;
+  p.energy=100;
+  if(tide%2===0)p.hp=Math.min(3,p.hp+1);
+  showToast("TIDE "+tide+" · BONUS!");
+  ping(690,.17,"triangle");
+ }
  p.inv=Math.max(0,p.inv-dt);p.energy=clamp(p.energy+dt*11,0,100);
  comboLeft-=dt;if(comboLeft<=0)combo=0;
  let dx=0,dy=0;
@@ -132,7 +145,7 @@ function tick(dt){
   }
  }
  fish=fish.filter(x=>!x.dead);
- hud();if(elapsed>=75)finish();
+ hud();
 }
 function animate(now){
  const dt=Math.max(0,Math.min(.033,(now-last)/1000||.016));last=now;
@@ -157,6 +170,7 @@ window.addEventListener("keydown",e=>{
 });
 window.addEventListener("keyup",e=>keys.delete(e.code));
 window.addEventListener("blur",()=>{keys.clear();if(state==="play")pause();});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&state==="play")pause();});
 $("play").addEventListener("click",reset);
 $("pause").addEventListener("click",pause);
 $("dash").addEventListener("pointerdown",e=>{e.preventDefault();dash();});
