@@ -4,6 +4,13 @@ export const STAGES = [160, 330, 620, 1050, 1750];
 export const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 export const radius = mass => 8 + Math.sqrt(Math.max(1, mass)) * 1.45;
 export const stageFor = mass => STAGES.reduce((n, threshold) => n + Number(mass >= threshold), 0);
+// The first growth tier starts at zero; avoid a zero-width denominator.
+export function growthProgress(mass) {
+  const stage = stageFor(mass);
+  if (stage >= STAGES.length) return 100;
+  const previous = stage === 0 ? 0 : STAGES[stage - 1];
+  return clamp((mass - previous) / (STAGES[stage] - previous) * 100, 0, 100);
+}
 
 function random(state) {
   let x = state.seed >>> 0;
