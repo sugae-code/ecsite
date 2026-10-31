@@ -15,7 +15,7 @@ test("80cm / 4kg: rakuraku 850 and yuyu 870",()=>{
 test("weight changes yamato class even when sum small",()=>{
  const r=estimate({length:20,width:20,height:10,padding:0,wall:0,weight:9});
  assert.equal(r.yamato,100);assert.equal(r.japanpost,60);
- assert.equal(r.results[0].size,100);assert.equal(r.results[0].price,1050);
+ const y=r.results.find(x=>x.id==="rakuraku");assert.equal(y.size,100);assert.equal(y.price,1050);
 });
 test("packing allowance and wall are counted for item mode",()=>{
  const r=estimate({length:30,width:20,height:10,padding:1,wall:0.3,weight:1});
@@ -33,11 +33,10 @@ test("25kg+ disables yuyu but not rakuraku up to 30kg",()=>{
  assert.equal(r.results.length,1);
  assert.equal(r.results[0].id,"rakuraku");
 });
-test("longest edge above 170cm is rejected by rakuraku",()=>{
+test("longest edge above 170cm cannot fit standard mercari services",()=>{
  const r=estimate({length:171,width:5,height:5,mode:"packed",weight:1});
  assert.equal(r.yamato,null);
- assert.equal(r.results.length,1);
- assert.equal(r.results[0].id,"yuyu");
+ assert.equal(r.results.length,0);
 });
 test("over 200cm or 30kg: no compatible mercari standard package",()=>{
  const r=estimate({length:150,width:100,height:20,mode:"packed",weight:31});
