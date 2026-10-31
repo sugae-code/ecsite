@@ -17,6 +17,36 @@ export const OFFICIAL = Object.freeze({
   mercariStore:"https://help.jp.mercari.com/guide/categories/314/"
 });
 const JP = [60,80,100,120,140,160,170];
+export const SMALL_OFFICIAL = Object.freeze({
+  mini: "https://help.jp.mercari.com/guide/articles/1479/",
+  nekoposu: "https://help.jp.mercari.com/guide/articles/01G14Y9S96BAJHBKRRSVWZKDRC/",
+  packetpost: "https://help.jp.mercari.com/guide/articles/834/",
+  packet: "https://help.jp.mercari.com/guide/articles/176/"
+});
+function smallPackageOptions({outer,inner,weight,mode}) {
+  const o=[...outer].sort((a,b)=>b-a);
+  const i=[...inner].sort((a,b)=>b-a);
+  const sum=o.reduce((a,b)=>a+b,0);
+  const opts=[];
+  const add=(id,name,price,href,notes,requiredSupply)=>opts.push({
+    id,name,size:"小型",price,href,notes,requiredSupply
+  });
+  // 専用封筒に品物+緩衝材の必要内寸が収まる場合のみ「候補」とする。
+  // 梱包済み外寸から封筒への入れ替え可否は判断できないため提示しない。
+  if (mode==="item" && weight<=2 && i[0]<=21.1 && i[1]<=16.8 && i[2]<=3)
+    add("mini","ゆうパケットポストmini",160,SMALL_OFFICIAL.mini,
+      "専用封筒が別途必要。内寸21.1×16.8cm以内、厚さはポスト投函可能か確認。","専用封筒の購入が必要");
+  if (weight<=1 && sum<=60 && o[0]<=34 && o[2]<=3 && o[0]>=23 && o[1]>=11.5)
+    add("nekoposu","ネコポス",210,SMALL_OFFICIAL.nekoposu,
+      "最小サイズ23×11.5cm以上。厚さ3cmまで。最終計測は事業者が実施。","");
+  if (weight<=2 && sum<=60 && o[0]<=34 && o[2]<=3 && o[0]>=14 && o[1]>=9)
+    add("packetpost","ゆうパケットポスト",215,SMALL_OFFICIAL.packetpost,
+      "発送用シールまたは専用箱が必要。郵便ポストへの投函可否を確認。","専用シール等の資材費が別途必要");
+  if (weight<=1 && sum<=60 && o[0]<=34 && o[2]<=3 && o[0]>=14 && o[1]>=9)
+    add("packet","ゆうパケット（メルカリ便）",230,SMALL_OFFICIAL.packet,
+      "厚さ3cm以内。重さ1kg以内。封筒や袋などを使う場合は外寸で確認。","");
+  return opts;
+}
 function fail(msg){ throw new RangeError(msg); }
 export function estimate(input){
   const {length,width,height,weight,mode="item",padding=1,wall=0.3}=input;
@@ -40,8 +70,10 @@ export function estimate(input){
     {id:"rakuraku",name:"らくらくメルカリ便 宅急便",size:long<=170?raku?.[0]??null:null,price:long<=170?raku?.[2]??null:null,href:OFFICIAL.rakuraku,notes:"メルカリでの取引専用。180サイズ以上は営業所または集荷のみ。"},
     {id:"yuyu",name:"ゆうゆうメルカリ便 ゆうパック",size:yuyu?.[0]??null,price:yuyu?.[1]??null,href:OFFICIAL.yuyu,notes:"メルカリでの取引専用。重量25kgまで。"},
   ].filter(r=>r.size!==null).sort((a,b)=>a.price-b.price || a.id.localeCompare(b.id));
-  const bestPrice=results.length?results[0].price:null;
-  return {outer,inner,sum,weight:kg,mode,uncertain:mode==="item",yamato,japanpost,results,bestPrice,oversize:!results.length,materials:materialsFor({inner,outer,sum})};
+  const smallOptions=smallPackageOptions({outer,inner,weight:kg,mode});
+  const recommendedResults=[...smallOptions,...results].sort((a,b)=>a.price-b.price || a.id.localeCompare(b.id));
+  const bestPrice=recommendedResults.length?recommendedResults[0].price:null;
+  return {outer,inner,sum,weight:kg,mode,uncertain:mode==="item",yamato,japanpost,results,smallOptions,recommendedResults,bestPrice,oversize:!recommendedResults.length,materials:materialsFor({inner,outer,sum})};
 }
 export function materialsFor({inner,outer,sum}){
   // 個別商品やSKUは断定しない。確定するのは「必要な箱の内寸」だけ。
