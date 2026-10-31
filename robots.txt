@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hakopita-m84e27.deed.page/sitemap.xml
