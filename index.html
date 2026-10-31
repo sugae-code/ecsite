@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>射精大会｜宅急便・ゆうパックの梱包サイズ計算</title>
-<meta name="description" content="縦・横・高さと重さを入れるだけ。ヤマト宅急便・ゆうパックの発送サイズの目安を無料で計算。緩衝材の厚みも考慮。スマホ対応・登録不要。">
-<meta name="theme-color" content="#10233e"><link rel="canonical" href="https://hakopita-m84e27.deed.page/"><meta property="og:url" content="https://hakopita-m84e27.deed.page/"><meta property="og:title" content="射精大会｜梱包サイズの無料計算">
+<title>梱包サイズ計算・メルカリ送料比較｜はこ便ものさし</title>
+<meta name="description" content="宅急便・ゆうパックの60〜200サイズを、縦・横・高さと重量から無料計算。メルカリ便の送料比較、ネコポス・ゆうパケット・段ボールの選び方まで。登録不要。">
+<meta name="theme-color" content="#10233e"><link rel="canonical" href="https://hakopita-m84e27.deed.page/"><meta property="og:url" content="https://hakopita-m84e27.deed.page/"><meta property="og:title" content="はこ便ものさし｜梱包サイズの無料計算">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f1f6f9;color:#10233e;font:16px system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif}
 header{background:#10233e;color:white;padding:20px 24px;font-size:23px;font-weight:800}main{max-width:900px;margin:0 auto;padding:24px 18px 70px}
@@ -21,8 +21,8 @@ button.secondary{color:#155765;background:#e2f1f3}
 a{color:#087d88}li{margin:10px 0}footer{max-width:900px;margin:auto;padding:25px;border-top:1px solid #cfe0e8;color:#567080;font-size:13px;line-height:1.8}
 #error{color:#bc3547;min-height:20px}
 @media(max-width:700px){.grid{grid-template-columns:1fr}.card{padding:18px}input{font-size:16px}}
-</style></head><body>
-<header>📦 射精大会</header>
+</style><meta property="og:site_name" content="はこ便ものさし">\n<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"はこ便ものさし","url":"https://hakopita-m84e27.deed.page/","inLanguage":"ja"}</script>\n</head><body>
+<header>📦 はこ便ものさし</header>
 <main><p style="color:#087d88;font-weight:800">無料・登録不要・ブラウザだけで計算</p>
 <h1>荷物の発送サイズ、<br>数字を入れるだけ。</h1>
 <p>梱包前の縦・横・高さと、緩衝材の余裕、梱包後の重さから<strong>3辺合計とサイズ区分</strong>を計算します。運賃は発送地・宛先で変わるため表示しません。</p>
@@ -64,7 +64,7 @@ a{color:#087d88}li{margin:10px 0}footer{max-width:900px;margin:auto;padding:25px
 <h3>箱や緩衝材はどこで探す？</h3><p>サイズ判定後、必要な内寸と外寸を確認し、用途に合う梱包材を選んでください。購入先の紹介は、実際の広告・提携契約が成立した場合に「広告」「PR」を明示して掲載します。</p>
 <h3>広告や費用は？</h3><p>計算・比較は無料です。段ボールなどの通販サイトへの通常の検索リンクがありますが、現在は広告・成果報酬リンクではありません。将来広告を掲載する場合は「広告」「PR」と区別して表示します。</p>
 </section>
-</main><footer>射精大会は宅配事業者とは無関係の独立した無料ツールです。料金の最終確認は公式サイトでお願いします。<br>
+</main><footer>はこ便ものさしは宅配事業者とは無関係の独立した無料ツールです。料金の最終確認は公式サイトでお願いします。<br>
 事業者さま向け：<a href="/advertise.html">広告掲載・業務提携のご相談</a></footer>
 <script type="module">
 import {classify} from './calc.mjs';
@@ -78,7 +78,7 @@ function update(){
  $('yamato').textContent=r.yamato?r.yamato+'サイズ':'規格外の可能性';
  $('japanpost').textContent=r.japanpost?r.japanpost+'サイズ':'通常規格外';
  $('error').textContent='';
- copyText='射精大会：3辺'+format(r.sum)+'cm、宅急便'+(r.yamato??'対象外')+'、ゆうパック'+(r.japanpost??'対象外');
+ copyText='はこ便ものさし：3辺'+format(r.sum)+'cm、宅急便'+(r.yamato??'対象外')+'、ゆうパック'+(r.japanpost??'対象外');
  }catch(e){$('error').textContent=e.message;$('sum').textContent='— cm';$('dim').textContent='—';$('yamato').textContent='—';$('japanpost').textContent='—';copyText=''}
 }
 $('form').addEventListener('input',update);
