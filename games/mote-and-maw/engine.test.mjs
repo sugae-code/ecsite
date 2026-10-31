@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { WORLD, STAGES, clamp, radius, stageFor, createGame, tick, pulse, setTarget, spawn } from './engine.mjs';
+import { WORLD, STAGES, clamp, radius, stageFor, growthProgress, createGame, tick, pulse, setTarget, spawn } from './engine.mjs';
 
 test('deterministic safe starting state', () => {
   const a=createGame(123),b=createGame(123);
@@ -62,5 +62,17 @@ test('safe spawning avoids player and remains inside world', () => {
   for(let i=0;i<50;i++){
     const e=spawn(s,'maw',300);
     if(e){assert.ok(Math.hypot(e.x-s.player.x,e.y-s.player.y)>=300);assert.ok(e.x>=0&&e.x<=WORLD.width);}
+  }
+});
+
+test('growth meter is visible from the start and finite at all tier boundaries', () => {
+  assert.equal(growthProgress(64), 40);
+  assert.equal(growthProgress(160), 0);
+  assert.equal(growthProgress(245), 50);
+  assert.equal(growthProgress(1750), 100);
+  for (const mass of [0, 1, 64, 159, 160, 329, 330, 619, 620, 1049, 1050, 1749, 1750, 10000]) {
+    const value = growthProgress(mass);
+    assert.ok(Number.isFinite(value), `invalid growth meter at mass=${mass}`);
+    assert.ok(value >= 0 && value <= 100);
   }
 });
