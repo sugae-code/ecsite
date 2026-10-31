@@ -1,10 +1,20 @@
 # Mote & Maw
 
-A completely original, self-contained HTML5 arcade game. Steer a luminous creature to graze smaller motes and creatures, avoid larger hunters, and spend 13% of your mass on a defensive pulse. Grow through five stages to bloom. Supports mouse, touch, keyboard and optional generated sound; no external assets, account, analytics or ads.
+A completely original, self-contained HTML5 arcade game. Steer a luminous creature to graze smaller motes and creatures, avoid larger hunters, and spend 13% of your mass on a defensive pulse. Grow through five stages to bloom. Supports mouse, touch, keyboard and optional generated sound; no external assets, account or standalone ads. CrazyGames SDK events are emitted only in supported publisher/QA environments.
 
 ## Run / test
 
-Serve this folder with any static HTTP server (ES modules require HTTP): `python3 -m http.server 8000` then open `/`. Run simulation tests: `node --test engine.test.mjs`. The production bundle is `index.html`, `style.css`, `game.mjs`, `engine.mjs`.
+Serve this folder with any static HTTP server (ES modules require HTTP): `python3 -m http.server 8000` then open `/`. Run simulation tests: `node --test engine.test.mjs`. The production bundle is `index.html`, `style.css`, `game.mjs`, `engine.mjs`, `crazygames-bridge.mjs`.
+
+## CrazyGames SDK integration
+
+The game now includes `crazygames-bridge.mjs` with HTML5 SDK v3 integration:
+- Gameplay start/stop events and CrazyGames host-mute settings are supported.
+- The independent public site does not load the external SDK, preserving free standalone gameplay.
+- Basic Launch is strictly ad-free; the full-launch switch remains off until approval.
+- Optional midgame ads are implemented only at a round break after 180 seconds and cannot interrupt gameplay.
+- Automated SDK unit tests live in `crazygames-bridge.test.mjs`. Run `node --test engine.test.mjs crazygames-bridge.test.mjs`.
+- Publisher-facing metadata and upload checklist: [SUBMISSION.md](./SUBMISSION.md).
 
 ## Commercial distribution gate
 
