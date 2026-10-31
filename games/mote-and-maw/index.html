@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#091422">
+  <meta name="description" content="Mote & Maw: an original free, one-finger arcade game. Graze tiny lights, outgrow the hunters, and pulse your way to a brilliant bloom.">
+  <title>Mote & Maw — Grow in the Glow</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="game" aria-label="Mote and Maw arcade game">
+    <canvas id="scene" aria-label="Game field: move to absorb smaller lights and avoid larger hunters"></canvas>
+    <header class="hud">
+      <div class="identity"><div class="symbol" aria-hidden="true">✺</div><div><strong>MOTE <span>&amp;</span> MAW</strong><small>GROW IN THE GLOW</small></div></div>
+      <div class="stats"><div class="stat"><small>SCORE</small><b id="score">0</b></div><div class="stat"><small>BEST</small><b id="best">0</b></div><div class="stat health"><small>LIVES</small><b id="hearts" aria-label="3 lives">♥ ♥ ♥</b></div></div>
+      <button class="sound" id="sound" type="button" aria-label="Turn sound on" title="Toggle sound">♪<span class="slash">/</span></button>
+    </header>
+    <div class="growth" aria-label="Growth progress"><span id="stage">SPARK</span><div class="growth-track"><i id="growth-fill"></i></div><span id="mass">64 / 160</span></div>
+    <div class="bottom"><div class="hint" id="hint"><strong>MOVE</strong> Mouse / touch / WASD <span>·</span> <strong>GRAZE</strong> smaller lights <span>·</span> <strong>ESCAPE</strong> larger hunters</div><button id="pulse" type="button" aria-label="Pulse to repel hunters, costs some of your size"><span class="pulse-icon">◉</span><span>PULSE<small id="cooldown">SPACE · -13% SIZE</small></span></button></div>
+    <section id="result" class="result" hidden aria-live="polite"><div class="card"><div class="result-star">✺</div><p class="eyebrow" id="outcome">THE TIDE RESTS</p><h1 id="result-title">One more glow?</h1><p id="result-detail">Every little light matters.</p><div class="result-stats"><div><small>FINAL SCORE</small><b id="final-score">0</b></div><div><small>BEST</small><b id="final-best">0</b></div></div><button id="restart" type="button">DRIFT AGAIN <span>↗</span></button><small class="subtle">Move with mouse, touch or arrow keys. Press SPACE to pulse.</small></div></section>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </main>
+  <script type="module" src="game.mjs"></script>
+</body>
+</html>
