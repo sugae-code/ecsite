@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>メルカリ送料比較｜ゆうパケットポストmini・ネコポスから宅急便まで｜射精大会</title>
+<title>メルカリ送料比較｜ゆうパケットポストmini・ネコポスから宅急便まで｜はこ便ものさし</title>
 <meta name="description" content="メルカリ送料を無料で比較。ゆうパケットポストmini160円、ネコポス210円、ゆうパケットポスト215円、宅急便などを寸法・重量から自動判定。専用資材の条件と梱包箱の内寸も確認。">
 <meta name="theme-color" content="#10263b">
 <link rel="canonical" href="https://hakopita-m84e27.deed.page/compare.html">
-<meta property="og:title" content="メルカリ便の送料・梱包サイズ比較｜射精大会">
+<meta property="og:title" content="メルカリ便の送料・梱包サイズ比較｜はこ便ものさし">
 <meta property="og:description" content="重さと3辺合計からメルカリ便の送料を比較。梱包前のサイズも計算。">
 <style>
 :root{font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#132c41;background:#f1f7fa}
@@ -53,8 +53,8 @@ footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#
 
 #quick-rates th,#quick-rates td{border-bottom:1px solid #d9e7ed;padding:10px 12px;vertical-align:top}
 #quick-rates thead{background:#e8f4f7}
-</style></head>
-<body><header><a href="/">📦 射精大会</a><span>送料・発送方法 比較</span></header>
+</style><meta property="og:site_name" content="はこ便ものさし">\n</head>
+<body><header><a href="/">📦 はこ便ものさし</a><span>送料・発送方法 比較</span></header>
 <main>
 <p style="font-size:13px;color:#0c7888;font-weight:800">フリマ発送の送料をかんたん比較</p>
 <h1>送るなら、いくら？<br>何サイズの箱が必要？</h1>
@@ -164,11 +164,11 @@ footer{max-width:960px;margin:auto;padding:25px 18px 50px;font-size:13px;color:#
 <li><a href="https://www.kuronekoyamato.co.jp/ytc/customer/send/search/payment/size/" target="_blank" rel="noopener noreferrer">ヤマト運輸 宅急便の規格</a>・<a href="https://www.kuronekoyamato.co.jp/ytc/search/estimate/ichiran.html" target="_blank" rel="noopener noreferrer">運賃一覧</a></li>
 <li><a href="https://www.post.japanpost.jp/service/send/domestic/delivery/yu-pack/" target="_blank" rel="noopener noreferrer">日本郵便 ゆうパック</a></li>
 </ul>
-<p class="helper">送料・条件は改定されます。表示と公式情報が異なる場合は必ず公式情報を優先してください。射精大会は各配送事業者と無関係の独立ツールです。</p>
+<p class="helper">送料・条件は改定されます。表示と公式情報が異なる場合は必ず公式情報を優先してください。はこ便ものさしは各配送事業者と無関係の独立ツールです。</p>
 </section>
 <p class="lead"><a href="/">元の梱包サイズ計算へ</a> ／ <a href="/box-guide.html">60・80・100サイズの箱の選び方</a> ／ <a href="/advertise.html">事業者向け広告・提携相談</a></p>
 </main>
-<footer>射精大会 / 発送サイズ・送料の目安を調べる無料ツール。入力した寸法を外部送信しません。<span id="affiliateFooter">通販リンクは現在、成果報酬リンクではありません。</span></footer>
+<footer>はこ便ものさし / 発送サイズ・送料の目安を調べる無料ツール。入力した寸法を外部送信しません。<span id="affiliateFooter">通販リンクは現在、成果報酬リンクではありません。</span></footer>
 <script type="module">
 import {estimate,OFFICIAL} from "./shipping-compare.mjs";
 import {AFFILIATE,chooseAffiliateLink} from "./affiliate-links.mjs";
@@ -253,7 +253,7 @@ function update(){
     cushion.rel=cushionAffiliate?"sponsored noopener noreferrer":"noopener noreferrer";
     const monetized=Boolean(boxAffiliate||cushionAffiliate);
     $("affiliateStatus").textContent=monetized
-      ?"「広告・PR」表示のあるリンクは成果報酬型広告です。購入によって射精大会運営者に報酬が発生する場合があります。価格・在庫・適合は販売店でご確認ください。その他は通常リンクです。"
+      ?"「広告・PR」表示のあるリンクは成果報酬型広告です。購入によってはこ便ものさし運営者に報酬が発生する場合があります。価格・在庫・適合は販売店でご確認ください。その他は通常リンクです。"
       :"上記は商品の検索ページ・公式案内への通常リンクです。価格・在庫・商品との適合は未確認です。現在、成果報酬リンクは設定されていません。";
     $("affiliateFooter").textContent=monetized
       ?"「広告・PR」のリンクのみ広告です。"
@@ -274,7 +274,7 @@ $("shipment").addEventListener("reset",()=>setTimeout(update,0));
 $("shipment").addEventListener("submit",e=>e.preventDefault());
 $("copy").addEventListener("click",async()=>{
   if(!last)return;
-  const msg="射精大会 送料比較\n外寸目安: "+last.outer.map(fmt).join("×")+"cm / 3辺合計 "+fmt(last.sum)+"cm\n"+
+  const msg="はこ便ものさし 送料比較\n外寸目安: "+last.outer.map(fmt).join("×")+"cm / 3辺合計 "+fmt(last.sum)+"cm\n"+
     (document.getElementById("purpose").value==="mercari"?last.recommendedResults.map(x=>x.name+" "+x.size+" "+x.price+"円（資材代別）").join("\n"):"一般発送の料金は公式サイトで確認");
   try{await navigator.clipboard.writeText(msg);$("copy").textContent="コピーしました"}catch{$("copy").textContent="コピーできませんでした"}
   setTimeout(()=>$("copy").textContent="計算結果をコピー",1800);
